@@ -1,11 +1,11 @@
+import scala.util.control.NonFatal
 /**
 	* Created by Administrator on 18/07/2017.
 	*/
 object main extends App {
 
 	def numberToNumberAndString(aLargeNumber: String): Unit = {
-		val numberNoLeadZeros = zeroRemover(aLargeNumber)
-		val stringOfALargeNumber = dotRemover(numberNoLeadZeros)
+		val stringOfALargeNumber = dotRemover(zeroRemover(aLargeNumber))
 		val doubleOfALargeNumber = stringOfALargeNumber.toDouble
 		stringPrint(stringOfALargeNumber, doubleOfALargeNumber)
 		shortScaleName(stringOfALargeNumber, doubleOfALargeNumber)
@@ -14,30 +14,29 @@ object main extends App {
 
 	def shortScaleName(stringPart: String, doublePart: Double): Unit = {
 		print("Short scale:")
-		val english = List("", " thousand and ", " million, ", " billion, ", " trillion, ", " quadrillion, ", " quintillion, ", " sextillion, ", " septillion, ", " octillion, ", " nonillion, ")
+		val shortScaleList = List("", " thousand ", " million, ", " billion, ", " trillion, ", " quadrillion, ", " quintillion, ", " sextillion, ", " septillion, ", " octillion, ", " nonillion, "," decillion, ")
 		val listNumberString = stringPart.reverse.grouped(3).toList.map(_.reverse.toList.mkString)
 		val output = for (i <- listNumberString.indices) yield {
-			if (listNumberString(i)== "000"){
-				english(i)
-			}
-			else {
-				listNumberString(i) + english(i)
+			i match {
+				case 0 if listNumberString(i) != "000" => "and "+zeroRemover(listNumberString(i))
+				case _ if listNumberString(i) == "000" => ""
+				case _ if listNumberString(i) != "000" => zeroRemover(listNumberString(i)) + shortScaleList(i)
+				case _ => ""
 			}
 		}
 		println(output.reverse.mkString)
-
 	}
 
 	def longScaleName(stringPart: String, doublePart: Double): Unit = {
 		print("Long scale:")
-		val notEnglish = List(" ", " thousand and ", " million ", " milliard ", " billion ", " billiard ", " trillion ", " trilliard ", " quadrillion, ", " quadrilliard, ", " quintillion ", " quintilliard, ", " sextillion, ")
+		val longScaleList = List(" ", " thousand ", " million ", " milliard ", " billion ", " billiard ", " trillion ", " trilliard ", " quadrillion, ", " quadrilliard, ", " quintillion ", " quintilliard, ", " sextillion, ")
 		val listNumberString = stringPart.reverse.grouped(3).toList.map(_.reverse.toList.mkString)
 		val output = for (i <- listNumberString.indices) yield {
-			if (listNumberString(i)== "000"){
-				notEnglish(i)
-			}
-			else {
-				listNumberString(i) + notEnglish(i)
+			i match {
+				case 0 if listNumberString(i) != "000" => "and "+zeroRemover(listNumberString(i))
+				case _ if listNumberString(i) == "000" => ""
+				case _ if listNumberString(i) != "000" => zeroRemover(listNumberString(i)) + longScaleList(i)
+				case _ => ""
 			}
 		}
 		println(output.reverse.mkString)
@@ -78,7 +77,7 @@ object main extends App {
 			val input = scanner
 			numberToNumberAndString(input)
 		} catch {
-			case e: Exception => println(s"Error Input! $e\n Please try again.")
+			case NonFatal(exc) => println(s"Error Input! $exc\n Please try again.")
 				InputEntry()
 			case _: Throwable => println("Big Error Here. Exiting...")
 				sys.exit(0)
