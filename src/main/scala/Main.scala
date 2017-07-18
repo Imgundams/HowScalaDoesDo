@@ -2,29 +2,29 @@ import scala.util.{Failure, Success, Try}
 
 // Created by DRain on 18/07/2017.
 object Main extends App {
-	def numberToNumberAndString(aLargeNumber: String): Unit = {
-		val shortScaleList = List("", " thousand ", " million, ", " billion, ", " trillion, ", " quadrillion, ", " quintillion, ", " sextillion, ", " septillion, ", " octillion, ", " nonillion, ", " decillion, ")
-		val longScaleList = List(" ", " thousand ", " million ", " milliard ", " billion ", " billiard ", " trillion ", " trilliard ", " quadrillion, ", " quadrilliard, ", " quintillion ", " quintilliard, ", " sextillion, ")
+	def numberToNumberAndString(aLargeNumber: String): String = {
+		val shortScaleList = List("", " thousand", " million,", " billion,", " trillion,", " quadrillion,",
+			" quintillion,", " sextillion,", " septillion,", " octillio,n", " nonillion,", " decillion,")
+		val longScaleList = List(" ", " thousand", " million,", " milliard,", " billion,", " billiard,",
+			" trillion,", " trilliard,", " quadrillion,", " quadrilliard,", " quintillion,", " quintilliard,", " sextillion,")
 		val stringOfALargeNumber = dotRemover(zeroRemover(aLargeNumber))
 		val doubleOfALargeNumber = stringOfALargeNumber.toDouble
-		stringPrint(stringOfALargeNumber, doubleOfALargeNumber)
-		print("Short scale:")
-		scaleName(stringOfALargeNumber, doubleOfALargeNumber, shortScaleList)
-		print("Long scale:")
-		scaleName(stringOfALargeNumber, doubleOfALargeNumber, longScaleList)
+		val output = "Short scale:" + scaleName(stringOfALargeNumber, doubleOfALargeNumber, shortScaleList) +
+			"\nLong scale:" + scaleName(stringOfALargeNumber, doubleOfALargeNumber, longScaleList)
+		output
 	}
 
-	def scaleName(stringPart: String, doublePart: Double, format: List[String]): Unit = {
+	def scaleName(stringPart: String, doublePart: Double, format: List[String]): String = {
 		val listNumberString = stringPart.reverse.grouped(3).toList.map(_.reverse.toList.mkString)
 		val output = for (i <- listNumberString.indices) yield {
 			i match {
-				case 0 if listNumberString(i) != "000" => "and " + zeroRemover(listNumberString(i))
+				case 0 if listNumberString(i) != "000" => " and " + zeroRemover(listNumberString(i))
 				case _ if listNumberString(i) == "000" => ""
-				case _ if listNumberString(i) != "000" => zeroRemover(listNumberString(i)) + format(i)
+				case _ if listNumberString(i) != "000" => " " + zeroRemover(listNumberString(i)) + format(i)
 				case _ => ""
 			}
 		}
-		println(output.reverse.mkString)
+		output.reverse.mkString
 	}
 
 	def dotRemover(stringPart: String): String = {
@@ -41,29 +41,23 @@ object Main extends App {
 		}
 	}
 
-	def stringPrint(stringPart: String, doublePart: Double): Unit = {
-		print("The Length of the Number is :")
-		println(stringPart.length)
-		print("The Number used as a String is :")
-		println(stringPart)
-		print("The Number as a Double is :")
-		println(doublePart)
-	}
-
-	def InputEntry(): Unit = {
-		println("Enter a Number to parse:\n")
+	def inputEntry(input: String): String = {
+		//	print("\nEnter a Number to parse:")
 		Try {
-			val scanner = scala.io.StdIn.readLine()
-			println(s"Using the value $scanner")
-			val input = scanner
-			numberToNumberAndString(input)
+			//			val scanner = scala.io.StdIn.readLine()
+			//			print(s"\nUsing the value $scanner")
+			//			val input = scanner
+			val output = numberToNumberAndString(input)
 		} match {
-			case Success(trying) => println("Done!")
+			case Success(trying) =>
+				val output = numberToNumberAndString(input)
+				output
 			case Failure(trying) =>
-				println(s"Error Input! $trying\n Please try again.")
-				InputEntry()
+		//		print(s"\nError Input! $trying\n Please try again.")
+		//		inputEntry(input)
+				"Bad Input!"
 		}
 	}
 
-	InputEntry()
+	print(inputEntry("1234567d8901234567890"))
 }
