@@ -59,5 +59,5 @@ object Main extends App {
 		}
 	}
 
-	print(inputEntry("1234567d8901234567890"))
+	print(inputEntry("12345678901234567890"))
 }
