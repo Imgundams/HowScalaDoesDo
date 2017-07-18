@@ -2,7 +2,7 @@ import scala.util.control.NonFatal
 /**
 	* Created by DRain on 18/07/2017.
 	*/
-object main extends App {
+object Main extends App {
 
 	def numberToNumberAndString(aLargeNumber: String): Unit = {
 		val shortScaleList = List("", " thousand ", " million, ", " billion, ", " trillion, ", " quadrillion, ", " quintillion, ", " sextillion, ", " septillion, ", " octillion, ", " nonillion, "," decillion, ")
