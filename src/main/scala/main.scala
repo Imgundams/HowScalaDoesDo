@@ -1,41 +1,28 @@
 import scala.util.control.NonFatal
 /**
-	* Created by Administrator on 18/07/2017.
+	* Created by DRain on 18/07/2017.
 	*/
 object main extends App {
 
 	def numberToNumberAndString(aLargeNumber: String): Unit = {
+		val shortScaleList = List("", " thousand ", " million, ", " billion, ", " trillion, ", " quadrillion, ", " quintillion, ", " sextillion, ", " septillion, ", " octillion, ", " nonillion, "," decillion, ")
+		val longScaleList = List(" ", " thousand ", " million ", " milliard ", " billion ", " billiard ", " trillion ", " trilliard ", " quadrillion, ", " quadrilliard, ", " quintillion ", " quintilliard, ", " sextillion, ")
 		val stringOfALargeNumber = dotRemover(zeroRemover(aLargeNumber))
 		val doubleOfALargeNumber = stringOfALargeNumber.toDouble
 		stringPrint(stringOfALargeNumber, doubleOfALargeNumber)
-		shortScaleName(stringOfALargeNumber, doubleOfALargeNumber)
-		longScaleName(stringOfALargeNumber, doubleOfALargeNumber)
-	}
-
-	def shortScaleName(stringPart: String, doublePart: Double): Unit = {
 		print("Short scale:")
-		val shortScaleList = List("", " thousand ", " million, ", " billion, ", " trillion, ", " quadrillion, ", " quintillion, ", " sextillion, ", " septillion, ", " octillion, ", " nonillion, "," decillion, ")
-		val listNumberString = stringPart.reverse.grouped(3).toList.map(_.reverse.toList.mkString)
-		val output = for (i <- listNumberString.indices) yield {
-			i match {
-				case 0 if listNumberString(i) != "000" => "and "+zeroRemover(listNumberString(i))
-				case _ if listNumberString(i) == "000" => ""
-				case _ if listNumberString(i) != "000" => zeroRemover(listNumberString(i)) + shortScaleList(i)
-				case _ => ""
-			}
-		}
-		println(output.reverse.mkString)
+		scaleName(stringOfALargeNumber, doubleOfALargeNumber,shortScaleList)
+		print("Long scale:")
+		scaleName(stringOfALargeNumber, doubleOfALargeNumber,longScaleList)
 	}
 
-	def longScaleName(stringPart: String, doublePart: Double): Unit = {
-		print("Long scale:")
-		val longScaleList = List(" ", " thousand ", " million ", " milliard ", " billion ", " billiard ", " trillion ", " trilliard ", " quadrillion, ", " quadrilliard, ", " quintillion ", " quintilliard, ", " sextillion, ")
+	def scaleName(stringPart: String, doublePart: Double, format:List[String]): Unit = {
 		val listNumberString = stringPart.reverse.grouped(3).toList.map(_.reverse.toList.mkString)
 		val output = for (i <- listNumberString.indices) yield {
 			i match {
 				case 0 if listNumberString(i) != "000" => "and "+zeroRemover(listNumberString(i))
 				case _ if listNumberString(i) == "000" => ""
-				case _ if listNumberString(i) != "000" => zeroRemover(listNumberString(i)) + longScaleList(i)
+				case _ if listNumberString(i) != "000" => zeroRemover(listNumberString(i)) + format(i)
 				case _ => ""
 			}
 		}
