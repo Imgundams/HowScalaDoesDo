@@ -53,8 +53,8 @@ object Main extends App {
 				val output = numberToNumberAndString(input)
 				output
 			case Failure(trying) =>
-		//		print(s"\nError Input! $trying\n Please try again.")
-		//		inputEntry(input)
+				//		print(s"\nError Input! $trying\n Please try again.")
+				//		inputEntry(input)
 				"Bad Input!"
 		}
 	}
