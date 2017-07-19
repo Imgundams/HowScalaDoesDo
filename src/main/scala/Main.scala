@@ -1,7 +1,8 @@
 
+//Created by DRain on 18/07/2017.
+
 import scala.util.{Failure, Success, Try}
 
-// Created by DRain on 18/07/2017.
 object Main extends App {
 def numberToNumberAndString(aLargeNumber: String): String = {
 val shortScaleList = List("", " thousand", " million,", " billion,", " trillion,", " quadrillion,",

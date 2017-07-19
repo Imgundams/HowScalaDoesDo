@@ -1,7 +1,9 @@
+
+//Created by DRain on 18/07/2017.
+
 import org.scalatest._
 import Main.{zeroRemover, scaleName, dotRemover, numberToNumberAndString, inputEntry}
 
-//Created by DRain on 18/07/2017.
 class TestsEx extends FlatSpec with Matchers {
 
 	val shortScaleList = List("", " thousand", " million,", " billion,", " trillion,", " quadrillion,",
